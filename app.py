@@ -3,13 +3,10 @@ import gradio as gr
 from voice_cloning_pipeline import analyze_and_preserve, EDGE_TTS_VOICES
 from translator import LANGUAGE_CODES
 
-# Build list of supported target languages (all languages that have both
-# a translator code AND an Edge-TTS voice mapping, excluding English)
 SUPPORTED_TARGET_LANGUAGES = [
     lang for lang in LANGUAGE_CODES
     if lang != "English" and lang in EDGE_TTS_VOICES
 ]
-
 
 def process_video(video_path, target_language="Hindi", progress=gr.Progress()):
     if not video_path:

@@ -18,7 +18,6 @@ import edge_tts
 OUTPUT_DIR = "output"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-
 def run_async(coro):
     """
     Safely run an async coroutine regardless of whether an event loop

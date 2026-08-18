@@ -36,7 +36,6 @@ torchaudio.load = safe_torchaudio_load
 # Global reference model
 _f5_model_instance = None
 
-
 def get_f5_model(model_choice="base"):
     """
     Lazy loader for F5TTS zero-shot voice cloning model.

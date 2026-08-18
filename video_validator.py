@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-
 def validate_video(video_path):
     if not video_path:
         return False, "No video uploaded."
