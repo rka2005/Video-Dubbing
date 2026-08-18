@@ -1,0 +1,13 @@
+{
+    "reference_audio_path": "output\\author_reference.wav",
+    "reference_text": "if you give up the guarantee is it will never happen. That's the guarantee of",
+    "features": {
+        "duration_seconds": 7.06,
+        "words_per_minute": 127.5,
+        "mean_pitch_hz": 164.24,
+        "pitch_variance": 4287.97,
+        "mean_energy": 0.1294,
+        "inferred_emotion_style": "expressive/excited",
+        "accent": "Inferred natively by F5-TTS from raw audio"
+    }
+}
