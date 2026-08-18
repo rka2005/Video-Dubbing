@@ -46,7 +46,7 @@ flowchart TD
     A[📹 Input English Video] --> B[Step 1: Extract Audio Track]
     B --> C[Step 2: Transcribe Speech & Timestamps via Whisper]
     C --> D[Step 3: Extract Clean 5-12s Speaker Reference Clip]
-    D --> E[Step 4: Merge Micro-segments & Translate Text]
+    D --> E[Step 4: Merge Micro-segments & Translate Text via Gemini AI]
     E --> F[Step 5: Synthesize Gender-Matched Voice & Fit Segment Timings]
     F --> G[Step 6: Multiplex Audio & Export Final Dubbed Video]
     G --> H[🎬 Output Dubbed Video]
@@ -57,7 +57,7 @@ flowchart TD
 1. **Audio Extraction**: Extracts pristine original audio using `MoviePy` and `FFmpeg`.
 2. **Speech Transcription**: Uses `OpenAI Whisper` to detect precise word-level timestamps and speech boundaries.
 3. **Reference Extraction**: Automatically crops a clean 5–12 second sample of speech (`author_reference.wav`) for voice profiling.
-4. **Context-Aware Translation**: Merges micro-segments into sentence blocks to maintain linguistic flow, translated via Google Translate API.
+4. **Context-Aware Gemini Translation**: Merges micro-segments into sentence blocks to maintain conversational flow and translates text using **Google Gemini LLM** (`google-genai` SDK loaded via `.env` configuration). Preserves emotions, tone, and natural code-switching (e.g., Hinglish), with automatic fallback to `deep-translator` (`GoogleTranslator`).
 5. **Acoustic Synthesis**: Analyzes fundamental pitch ($F_0$) to choose male/female neural voices, then time-stretches each clip to fit exact segment boundaries.
 6. **Video Re-muxing**: Combines the newly synthesized stereo audio track back into the video container.
 
@@ -125,7 +125,15 @@ ffmpeg -version
 Install the required libraries using `pip`:
 
 ```bash
-pip install gradio openai-whisper moviepy numpy soundfile librosa edge-tts deep-translator torch torchaudio
+pip install gradio openai-whisper moviepy numpy soundfile librosa edge-tts deep-translator google-genai python-dotenv torch torchaudio
+```
+
+### Step 4: Configure Environment Variables (.env)
+Create a `.env` file in the root directory to configure your Gemini API credentials:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.6-flash
 ```
 
 > [!TIP]
@@ -245,11 +253,12 @@ output/
 ## 🛠️ Built With
 
 * [OpenAI Whisper](https://github.com/openai/whisper) — Automatic Speech Recognition (ASR) & Timing
+* [Google Gemini API](https://ai.google.dev/) — Context-Aware LLM Dialogue Translation (`google-genai`)
 * [Microsoft Edge TTS](https://github.com/rany2/edge-tts) — High-Definition Neural Speech Synthesis
 * [F5-TTS](https://github.com/SWivid/F5-TTS) — Zero-Shot Voice Cloning Fallback Engine
 * [MoviePy](https://zulko.github.io/moviepy/) & [FFmpeg](https://ffmpeg.org/) — Audio-Video Muxing & Editing
 * [Librosa](https://librosa.org/) & [SoundFile](https://python-soundfile.readthedocs.io/) — Acoustic Feature Analysis & Time Stretching
-* [Deep Translator](https://github.com/nidhaloff/deep-translator) — Multi-Engine Text Translation
+* [Deep Translator](https://github.com/nidhaloff/deep-translator) — Multi-Engine Text Translation Fallback
 * [Gradio](https://gradio.app/) — Graphical Web Application Framework
 
 ---
